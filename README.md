@@ -1,3 +1,5 @@
+# This is a `Unique Skill Training Toolkit` to tranfer your image data to valuable ownable skill with feature extractor powered by machine learning.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
