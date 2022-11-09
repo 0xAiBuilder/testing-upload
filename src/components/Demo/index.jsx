@@ -48,7 +48,7 @@ function Demo() {
       <Title />
       {
         !state.artifact ? <NoticeNoArtifact /> :
-          !state.contract ? <NoticeWrongNetwork /> :
+        //  !state.contract ? <NoticeWrongNetwork /> :
             demo
       }
     </div>

@@ -2,18 +2,11 @@ import { EthProvider } from "./contexts/EthContext";
 import Intro from "./components/Intro/";
 import Setup from "./components/Setup";
 import Demo from "./components/Demo";
-//import AncientOne from "./components/AncientOne";
-//import AIWalletFactory from "./components/AIWalletFactory";
-//import AIWalletFactory3 from "./components/AIWalletFactory3";
 import Footer from "./components/Footer";
 import "./App.css";
 
-import ScriptTag from 'react-script-tag';
+//import ScriptTag from 'react-script-tag';
 
-/* import { BrowserRouter as Router, Route, Navigate, Routes} from 'react-router-dom';
-import Navbar from './Navbar/Navbar';
-import AI_realm from './pages/AI_realm/AI_realm';
-import Training_chamber from './pages/Training_chamber/Training_chamber'; */
 function App() {
   return (
     <EthProvider>
@@ -25,10 +18,6 @@ function App() {
           <hr />
           <Demo />
           <hr />
-          {/*<AncientOne />
-          <hr /> 
-          <AIWalletFactory3 />
-          <hr />*/}
           <Footer />
           <h1>Image Classification using Feature Extractor with MobileNet</h1>
           <div id="videoContainer"></div>
@@ -55,7 +44,7 @@ function App() {
             
            
           </p>
-          <ScriptTag type="text/javascript" src="featureextractor.js" />
+          <script type="text/javascript" src="featureextractor.js"> </script>
         </div>
         {/* <Router>
           <main>

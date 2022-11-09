@@ -143,7 +143,7 @@ contract Account2 is ERC1155 {
 
 
 
-contract AIWalletFactory3 {
+contract AIWalletFactory {
     address public factory;
     constructor () {
         factory = msg.sender;
