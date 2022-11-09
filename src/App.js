@@ -6,19 +6,12 @@ import Footer from "./components/Footer";
 import "./App.css";
 
 //import ScriptTag from 'react-script-tag';
-
+import {Helmet} from "react-helmet";
 function App() {
   return (
     <EthProvider>
       <div id="App" >
-        <div className="container">
-          <Intro />
-          <hr />
-          <Setup />
-          <hr />
-          <Demo />
-          <hr />
-          <Footer />
+      <div className="container">
           <h1>Image Classification using Feature Extractor with MobileNet</h1>
           <div id="videoContainer"></div>
           <p><span id="modelStatus">Loading MobileNet</span></p>
@@ -38,24 +31,21 @@ function App() {
             <button id="save">Save Model</button> |
             <label htmlFor="avatar">Load Model:</label>
             <input type="file" id="load" multiple           />
-
           </p>
           <p>
-            
-           
+            <Helmet>
+              <script src="featureextractor.js" type="text/javascript" />
+            </Helmet>           
           </p>
-          <script type="text/javascript" src="featureextractor.js"> </script>
+          <hr />
+          <Intro />
+          <hr />
+          <Setup />
+          <hr />
+          <Demo />
+          <hr />
+          <Footer />
         </div>
-        {/* <Router>
-          <main>
-            <Routes>
-                <Route path="*" element={<Navigate to ="/" />}/>
-                <Route path = "/AI_realm"      element={<AI_realm/>}/>
-                <Route path = "/Training_chamber" element={<Training_chamber/>} />
-            </Routes>
-          </main>
-          <Navbar/>
-        </Router> */}
       </div>
     </EthProvider>
   );

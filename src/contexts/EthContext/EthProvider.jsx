@@ -30,7 +30,7 @@ function EthProvider({ children }) {
   useEffect(() => {
     const tryInit = async () => {
       try {
-        const artifact = require("./contracts/AIWalletFactory3.json");
+        const artifact = require("./contracts/AIWalletFactory.json");
         init(artifact);
       } catch (err) {
         console.error(err);

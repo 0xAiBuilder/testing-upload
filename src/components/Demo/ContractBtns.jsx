@@ -3,7 +3,7 @@ import useEth from "../../contexts/EthContext/useEth";
 import Web3 from "web3";
 import { ethers } from "ethers";
 import subsmartcontract from "../../contexts/EthContext/contracts/Account2.json";
-import smartcontract from "../../contexts/EthContext/contracts/AIWalletFactory3.json"
+import smartcontract from "../../contexts/EthContext/contracts/AIWalletFactory.json"
 const subsmartcontractABI = subsmartcontract.abi;
 
 // def funcation network 
