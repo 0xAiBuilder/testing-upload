@@ -1,0 +1,37 @@
+Starting migrations...
+======================
+> Network name:    'ftm'
+> Network id:      4002
+> Block gas limit: 281474976710655 (0xffffffffffff)
+
+
+1_AIWalletFactory.js
+====================
+
+   Deploying 'AIWalletFactory'
+   ---------------------------
+   > transaction hash:    0xd3cd5f28e2650fc720ba3992b2d989575879a6f94df76d0f5553d952d8707cac
+   > Blocks: 3            Seconds: 5
+   > contract address:    0xD1c9bd2eaa259b87D0E64C7B1d1d5d0A0Cc9966C
+   > block number:        11921277
+   > block timestamp:     1667977109
+   > account:             0xa4c3d85cA73092d522CdD2B0d764e0526f696EF9
+   > balance:             6.9457233664251
+   > gas used:            5023861 (0x4ca875)
+   > gas price:           3.5 gwei
+   > value sent:          0 ETH
+   > total cost:          0.0175835135 ETH
+
+   Pausing for 2 confirmations...
+
+   -------------------------------
+   > confirmation number: 1 (block: 11921284)
+   > confirmation number: 3 (block: 11921286)
+   > Saving artifacts
+   -------------------------------------
+   > Total cost:        0.0175835135 ETH
+
+Summary
+=======
+> Total deployments:   1
+> Final cost:          0.0175835135 ETH
