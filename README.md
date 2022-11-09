@@ -1,4 +1,4 @@
-# This is a `Unique Skill Training Toolkit` to tranfer your image data to valuable ownable skill with feature extractor powered by machine learning.
+# This is a `Unique Skill Training Chamber` to tranfer your image data to valuable ownable skill with feature extractor powered by machine learning.
 
 Step 1. creators train a model and download two files `model.json` & `model.weight.bin`\
 Step 2. creators zip two files at [`https://car.ipfs.io/`](https://car.ipfs.io/)\
