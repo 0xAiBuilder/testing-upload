@@ -4,7 +4,6 @@ import Title from "./Title";
 import Cta from "./Cta";
 import Contract from "./Contract";
 import ContractBtns from "./ContractBtns";
-import Desc from "./Desc";
 import NoticeNoArtifact from "./NoticeNoArtifact";
 import NoticeWrongNetwork from "./NoticeWrongNetwork";
 
@@ -12,7 +11,7 @@ function Demo() {
   const { state } = useEth();
   
   const [value, setValue] = useState("?(balance)");
-  const [useraddress, setUseraddress] = useState("?(AIWalletFactory3 owner ddress)");
+  const [useraddress, setUseraddress] = useState("?(AI Wallet Factory owner address)");
   const [mainaddressid, setMainaddressid] = useState("?(Spawn address ID)");
   const [spawnaddress, setSpawnaddress] = useState("?(Spawn address)");
   const [spawnowneraddress, setSpawnowneraddress] = useState("?(Spawn owner address)");
@@ -28,7 +27,7 @@ function Demo() {
   const demo =
     <>
       <Cta />
-      <div >{/* className="contract-container"> */}
+      <div className="contract-container"> 
         <Contract value={value} useraddress={useraddress} mainaddressid={mainaddressid} 
         spawnaddress={spawnaddress} spawnowneraddress={spawnowneraddress} 
         contractInfo={contractInfo} rate={rate} supplymax={supplymax} supplyuri={supplyuri}
@@ -40,7 +39,6 @@ function Demo() {
         setMinted={setMinted} setMint={setMint} setReadLockingTime={setReadLockingTime} 
         setBalanceMinted={setBalanceMinted} setStaking={setStaking}/>
       </div>
-      <Desc />
     </>;
 
   return (

@@ -110,7 +110,7 @@ hr {
 }
 
 #App .container .demo .contract-container .btns>* {
-  width: 12rem;
+  width: 56rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -127,7 +127,7 @@ hr {
 }
 
 #App .container .demo .contract-container .btns .input-btn input {
-  width: 4rem;
+  width: 12rem;
   text-align: center;
   font-family: monospace;
   font-size: 1.2rem;

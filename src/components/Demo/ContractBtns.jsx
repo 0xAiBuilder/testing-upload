@@ -480,7 +480,7 @@ function ContractBtns({ setValue, setUseraddress, setMainaddressid, setSpawnaddr
       </button>
 
       <button onClick={getUseraddress}>
-        AIWalletFactory3 address
+        AIWalletFactory address
       </button>
 
       <button onClick={createAccount} className="input-btn">
@@ -532,7 +532,7 @@ function ContractBtns({ setValue, setUseraddress, setMainaddressid, setSpawnaddr
           placeholder="uri"
           value={inputUri}
           onChange={handleInputUri}
-        />
+        />)
       </button>
 
       <button onClick={getRate}>

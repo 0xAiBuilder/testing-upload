@@ -1,10 +1,10 @@
 function Cta() {
   return (
     <p>
-      Try changing&nbsp;
-      <span className="code">value</span>
-      &nbsp;in&nbsp;
-      <span className="code">SimpleStorage</span>.
+      Try to build&nbsp;
+      <span className="code">unique skill</span>
+      &nbsp;on&nbsp;
+      <span className="code">openskill platform</span>.
     </p>
   );
 }

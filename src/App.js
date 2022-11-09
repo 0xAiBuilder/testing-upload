@@ -38,13 +38,7 @@ function App() {
             </Helmet>           
           </p>
           <hr />
-          <Intro />
-          <hr />
-          <Setup />
-          <hr />
           <Demo />
-          <hr />
-          <Footer />
         </div>
       </div>
     </EthProvider>

@@ -47,7 +47,7 @@ function Contract({ value, useraddress, mainaddressid, spawnaddress, spawnownera
     <code>
 
       {`
->get AIWalletFactory3 owner address:
+>get AIWalletFactory owner address:
 >`} 
 
       <span className="secondary-color" ref={spanEle}>
@@ -56,7 +56,7 @@ function Contract({ value, useraddress, mainaddressid, spawnaddress, spawnownera
 
       {`
 
-contract AIWalletFactory3 {
+contract AIWalletFactory {
   address public factory;
   function read() public view returns (uint256) {
   constructor () {
@@ -188,9 +188,12 @@ contract Account2 is ERC1155 {
   function WithdrawByOwner(uint _amount) public {        
     if (msg.sender != ownerAddr)
         revert Unauthorized();
-    require(_amount>balances[ownerAddr], "insufficent fund");  
-    require(block.timestamp>(_expired4-totalsecondWeek*(taken-1)), "Locking.");
-    require(_amount<=(balances[ownerAddr]/taken), "Cannot take > 1/stage.");  
+    require(_amount>balances[ownerAddr], 
+    "insufficent fund");  
+    require(block.timestamp>
+    (_expired4-totalsecondWeek*(taken-1)), "Locking.");
+    require(_amount<=(balances[ownerAddr]/taken),
+    "Cannot take > 1/stage.");  
     ab (_amount);
     if (taken > 1)
         taken --;
