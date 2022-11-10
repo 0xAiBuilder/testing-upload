@@ -1,6 +1,6 @@
 import { useRef, useEffect } from "react";
 
-function Contract({ value, useraddress, mainaddressid, spawnaddress, spawnowneraddress, contractInfo, rate, supplymax, supplyuri, minted, mint, readLockingTime, balanceMinted, staking}) {
+function Contract({ value, useraddress, mainaddressid, spawnaddress, spawnowneraddress, contractInfo, rate, supplymax, supplyuri, minted, mint, readLockingTime, readStakingTime, readMaxWithdrawbalances, readIncentivebankbalances, readOwnerbalances, balanceMinted, staking}) {
   const spanEle = useRef(null);
 
   useEffect(() => {
@@ -11,7 +11,7 @@ function Contract({ value, useraddress, mainaddressid, spawnaddress, spawnownera
     return () => {
       clearTimeout(flash);
     };
-  }, [value, useraddress, mainaddressid, contractInfo, rate, supplymax, supplyuri, minted, mint, readLockingTime, balanceMinted, staking]);
+  }, [value, useraddress, mainaddressid, contractInfo, rate, supplymax, supplyuri, minted, mint, readLockingTime, readStakingTime, readMaxWithdrawbalances, readIncentivebankbalances, readOwnerbalances, balanceMinted, staking]);
 /* 
   useEffect(() => {
     spanEle.current.classList.add("flash");
@@ -94,8 +94,10 @@ contract AIWalletFactory {
   uint _amount) 
   public payable {
     require (factory == msg.sender, "need access");
+    require (address(this).balance>= _amount,
+     "insufficent fund");
     (bool sent,) = _to.call{value: _amount}("");
-    require(sent, "not yet complete");
+    require(sent, "err");
   }
 }
 
@@ -293,17 +295,58 @@ contract Account2 is ERC1155 {
     _amount, "0x00");
   }
 
-  function unstake() public {        
-    parentFLM.safeTransferFrom(address(this), 
-    msg.sender, stakes[msg.sender].modelId, 
-    stakes[msg.sender].amount, "0x00");
-    stakingTime[msg.sender] = 
-    (block.timestamp - stakes[msg.sender].timestamp);
-    delete stakes[msg.sender];
-    if(stakingTime[msg.sender]>60)
-        WithdrawByfactory
-        (balances[incentivebank] * 1/100, false);
+  function unstake() public {
+    if(stakes[msg.sender].amount > 0){        
+      parentFLM.safeTransferFrom(address(this), 
+      msg.sender, stakes[msg.sender].modelId, 
+      stakes[msg.sender].amount, "0x00");
+      stakingTime[msg.sender] = 
+      (block.timestamp - 
+        stakes[msg.sender].timestamp);
+      delete stakes[msg.sender];
+      if(stakingTime[msg.sender]>60)
+          WithdrawByfactory
+          (balances[incentivebank] * 1/100, false);
+    }    
   }
+
+>get owner withdraw locking timestamp: 
+>demo: 40 seconds per each locking stage, 
+ total 160 seconds 4 stages
+>`}
+    <span className="secondary-color" ref={spanEle}>
+        <strong>{readLockingTime}</strong>
+    </span>
+  {`
+
+>get staking time:
+>demo: stake 60 seconds to earn 1/100 from incentive pool
+>`}
+    <span className="secondary-color" ref={spanEle}>
+        <strong>{readStakingTime}</strong>
+    </span>
+  {`
+  
+>get Max withdraw balances by owner at each stage:
+>`}
+    <span className="secondary-color" ref={spanEle}>
+        <strong>{readMaxWithdrawbalances}</strong>
+    </span>
+  {`
+ 
+>get incentive bank balances:
+>`}
+    <span className="secondary-color" ref={spanEle}>
+        <strong>{readIncentivebankbalances}</strong>
+    </span>
+  {`
+
+>get total withdraw amount in owner balances:
+>`}
+    <span className="secondary-color" ref={spanEle}>
+        <strong>{readOwnerbalances}</strong>
+    </span>
+  {`    
 
   function onERC1155Received(
     address operatorp,
@@ -323,7 +366,8 @@ contract Account2 is ERC1155 {
   public view returns 
   (uint, uint, uint256, 
   uint256, uint, uint, string memory) {
-    return (stakingTime[msg.sender], 
+    return ((block.timestamp - 
+    stakes[msg.sender].timestamp), 
     balances[ownerAddr]/taken, 
     balances[incentivebank], balances[ownerAddr], 
     mintRate, supplies, theuri);

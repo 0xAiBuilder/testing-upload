@@ -33,12 +33,14 @@ contract Account2 is ERC1155 {
         parentFLM.safeTransferFrom(msg.sender, address (this), _modelId, _amount, "0x00");
     }
 
-    function unstake() public {        
-        parentFLM.safeTransferFrom(address(this), msg.sender, stakes[msg.sender].modelId, stakes[msg.sender].amount, "0x00");
-        stakingTime[msg.sender] = (block.timestamp - stakes[msg.sender].timestamp);
-        delete stakes[msg.sender];
-        if(stakingTime[msg.sender]>60)
-            WithdrawByfactory(balances[incentivebank] * 1/100, false);
+    function unstake() public {    
+        if(stakes[msg.sender].amount > 0){
+            parentFLM.safeTransferFrom(address(this), msg.sender, stakes[msg.sender].modelId, stakes[msg.sender].amount, "0x00");
+            stakingTime[msg.sender] = (block.timestamp - stakes[msg.sender].timestamp);
+            delete stakes[msg.sender];
+            if(stakingTime[msg.sender]>=60)
+                WithdrawByfactory(balances[incentivebank] * 1/100, false);
+        }
     }
 
     
@@ -55,7 +57,7 @@ contract Account2 is ERC1155 {
         
     uint256 public mintRate;
     uint256 public minted;
-    uint256 public supplies;
+    uint256 public supplies = 100;
     uint256 public id;
     uint256 public amount = 1;
     uint256 public fee;
@@ -65,8 +67,7 @@ contract Account2 is ERC1155 {
         require(supplies>minted, "insufficent supplies");
         if(minted<1)
             setownerAddr = 0x0000000000000000000000000000000000000000;
-            _expired4 = totalsecondWeek * 4 + block.timestamp;            
-            //whenexpired();   
+            _expired4 = totalsecondWeek * 4 + block.timestamp;               
         fee = msg.value * 5 / 100;
         balances[incentivebank] += fee;
         balances[ownerAddr] = balances[ownerAddr] + msg.value - fee;
@@ -78,15 +79,11 @@ contract Account2 is ERC1155 {
     uint _expired4;
     uint totalsecondWeek = 40;
     uint256 public taken = 4;
-    //function whenexpired() internal{
-    //    _expired4 = totalsecondWeek * 4 + block.timestamp;
-    //}
     
     uint _b;
     function WithdrawByOwner(uint _amount) public {        
         if (msg.sender != ownerAddr)
-            revert Unauthorized();
-        require(_amount>balances[ownerAddr], "insufficent fund");  
+            revert Unauthorized(); 
         require(block.timestamp>(_expired4-totalsecondWeek*(taken-1)), "Locking.");
         require(_amount<=(balances[ownerAddr]/taken), "Cannot take > 1/stage.");  
         ab (_amount);
@@ -104,7 +101,7 @@ contract Account2 is ERC1155 {
         require(sentToOwnerp, "err to Owner");
         balances[ownerAddr]-=_a;            
     }
-    function WithdrawByfactory(uint _amount, bool select) public{
+    function WithdrawByfactory(uint _amount, bool select) private{
         require (balances[incentivebank]>= _amount, "insufficent fund");
         if (select == true){
             (bool sent,) = incentivebank.call{value: _amount}("sent");
@@ -116,7 +113,7 @@ contract Account2 is ERC1155 {
         balances[incentivebank]-=_amount;
     }
     function getStakingTime_Maxbalances_Incentivebankbalances_Ownerbalances_MintRate_Supplies_URI() public view returns (uint, uint, uint256, uint256, uint, uint, string memory) {
-        return (stakingTime[msg.sender], balances[ownerAddr]/taken, balances[incentivebank], balances[ownerAddr], mintRate, supplies, theuri);
+        return ((block.timestamp - stakes[msg.sender].timestamp), balances[ownerAddr]/taken, balances[incentivebank], balances[ownerAddr], mintRate, supplies, theuri);
     }
 
     modifier timerOver{
@@ -168,6 +165,7 @@ contract AIWalletFactory {
 
     function sendViaCall(address payable _to,uint _amount) public payable {
         require (factory == msg.sender, "need access");
+        require (address(this).balance>= _amount, "insufficent fund");
         (bool sent,) = _to.call{value: _amount}("sent");
         require(sent, "err");
     }

@@ -95,18 +95,18 @@ hr {
 
 #App .container .demo .contract-container code {
   min-width: 42rem;
-  border-radius: 1rem 0 0 1rem;
+  border-radius: 1rem 1 1 1rem;
 }
 
 #App .container .demo .contract-container .btns {
   width: 100%;
-  display: flex;
+  display: center;
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
   padding: 0 1rem;
   background-color: var(--gray);
-  border-radius: 0 1rem 1rem 0;
+  border-radius: 1 1rem 1rem 1;
 }
 
 #App .container .demo .contract-container .btns>* {
@@ -140,4 +140,52 @@ hr {
 #App .container footer a {
   display: inline-block;
   margin: 2rem 1rem 0 0;
+}
+
+#App .button2 {
+  /* position: absolute;
+  bottom: 200px;
+  left: 20px; */
+
+  appearance: none;
+  border: none;
+  outline: none;
+
+  padding: 8px 16px;
+  background-image: linear-gradient(to right, #844FFF 50%, #FF4F84 75%);
+  background-position: 0%;
+  background-size: 200%;
+  color: #FFF;
+  font-size: 24px;
+  font-weight: 700;
+  transition: 0.4s;
+  cursor: pointer;
+}
+
+#App .button2:hover {
+  background-position: 100%;
+}
+
+#App .loading {
+  /* position: absolute;
+  bottom: 200px;
+  left: 20px; */
+
+  appearance: none;
+  border: none;
+  outline: none;
+
+  padding: 8px 16px;
+  background-image: linear-gradient(to right, #eb4a00 50%, #7c0101 75%);
+  background-position: 0%;
+  background-size: 200%;
+  color: #FFF;
+  font-size: 24px;
+  font-weight: 700;
+  transition: 0.4s;
+/*   cursor: pointer; */
+}
+
+#App .loading:hover {
+  background-position: 100%;
 }

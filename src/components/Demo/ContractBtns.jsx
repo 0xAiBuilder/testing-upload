@@ -86,7 +86,7 @@ const changeNetwork = async ({ networkName, setError }) => {
   }
 };
 
-function ContractBtns({ setValue, setUseraddress, setMainaddressid, setSpawnaddress, setSpawnowneraddress, setContractInfo, setRate, setSupplymax, setSupplyuri, setMinted, setMint, setReadLockingTime, setBalanceMinted, setStaking}) {
+function ContractBtns({ setValue, setUseraddress, setMainaddressid, setSpawnaddress, setSpawnowneraddress, setContractInfo, setRate, setSupplymax, setSupplyuri, setMinted, setMint, setReadLockingTime, setReadStakingTime, setReadMaxWithdrawbalances, setReadIncentivebankbalances, setReadOwnerbalances, setBalanceMinted, setStaking}) {
   const { state: { contract, accounts } } = useEth();
   const [inputValue, setInputValue] = useState("");
   const [inputID, setInputID] = useState("");
@@ -94,6 +94,8 @@ function ContractBtns({ setValue, setUseraddress, setMainaddressid, setSpawnaddr
   const [inputSupplyMax, setInputSupplyMax] = useState("");
   const [inputUri, setInputUri] = useState("");
   const [inputStakingNumber, setInputStakingNumber] = useState("");
+  const [inputToAddr, setInputToAddr] = useState("");
+  const [inputToAmount, setInputToAmount] = useState("");
 
   //let subsmartcontract;
   const handleInputChange = e => {
@@ -104,6 +106,14 @@ function ContractBtns({ setValue, setUseraddress, setMainaddressid, setSpawnaddr
 
   const handleInputAddress = e => {
     setInputValue(e.target.value);
+  };
+
+  const handleInputToAddr = e => {
+    setInputToAddr(e.target.value);
+  };
+
+  const handleInputToAmount = e => {
+    setInputToAmount(e.target.value);
   };
 
   const handleInputRate = e => {
@@ -168,6 +178,25 @@ function ContractBtns({ setValue, setUseraddress, setMainaddressid, setSpawnaddr
     setMainaddressid((parseInt(counter)-1).toString());
   };
 
+  const sendCall = async e => {
+    if (e.target.tagName === "INPUT") {
+      return;
+    }
+    if (inputToAddr === "") {
+      alert("What address would you like to sent to?");
+      return;
+    }
+    if (inputToAmount === "") {
+      alert("Please enter amount.");
+      return;
+    }
+    const newAddress = String(inputToAddr);
+    const weiValue = Web3.utils.toWei(inputToAmount, 'ether');
+    await contract.methods.sendViaCall(newAddress, weiValue).send({ from: accounts[0], value: weiValue});
+    const value = await contract.methods.getBalance().call({ from: accounts[0] });
+    setValue((parseFloat(value)/1000000000000000000).toString());
+  };
+
   const getSpawnaddress = async e => {
     if (e.target.tagName === "INPUT") {
       return;
@@ -176,12 +205,31 @@ function ContractBtns({ setValue, setUseraddress, setMainaddressid, setSpawnaddr
       alert("Please enter a spawn address ID.");
       return;
     }
-
+    const checkmaxsm = await contract.methods.counter().call({ from: accounts[0]});
+    if (parseInt(inputID) >= parseInt(checkmaxsm)) {
+      alert("Present max. number of smart contract ID is "+checkmaxsm+", but you enter "+inputID);
+      return;
+    }
     const newID = String(inputID);
     const currentspawnaddr = await contract.methods.myaccounts(newID).call({ from: accounts[0]});
     setSpawnaddress(currentspawnaddr);
     console.log("currentspawnaddr:", currentspawnaddr);
   };
+
+  const ownerwithdraw = async e => {
+    if (e.target.tagName === "INPUT") {
+      return;
+    }
+    if (inputToAmount === "") {
+      alert("Please enter amount.");
+      return;
+    }
+    const weiValue = Web3.utils.toWei(inputToAmount, 'ether');
+    await contract.methods.WithdrawByOwner(weiValue).send({ from: accounts[0], value: weiValue});
+    const value = await contract.methods.getBalance().call({ from: accounts[0] });
+    setValue((parseFloat(value)/1000000000000000000).toString());
+  };
+  
 
   useEffect(() => {
     window.ethereum.on("chainChanged", networkChanged);
@@ -220,6 +268,11 @@ function ContractBtns({ setValue, setUseraddress, setMainaddressid, setSpawnaddr
       alert("Please enter a spawn address ID.");
       return;
     }
+    const checkmaxsm = await contract.methods.counter().call({ from: accounts[0]});
+    if (parseInt(inputID) >= parseInt(checkmaxsm)) {
+      alert("Present max. number of smart contract ID is "+checkmaxsm+", but you enter "+inputID);
+      return;
+    }
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const newID = String(inputID);
     const currentspawnaddr = await contract.methods.myaccounts(newID).call({ from: accounts[0]});
@@ -229,8 +282,7 @@ function ContractBtns({ setValue, setUseraddress, setMainaddressid, setSpawnaddr
     //const scfee = ethers.utils.formatEther(await account2.fee());
     const builderaddress = await account2.ownerAddr();
     console.log("builder address:", builderaddress);    
-    setContractInfo(builderaddress);
-    
+    setContractInfo(builderaddress);    
   }
 
   const setup = async e => {
@@ -239,6 +291,11 @@ function ContractBtns({ setValue, setUseraddress, setMainaddressid, setSpawnaddr
     }
     if (inputID === "") {
       alert("Please enter a spawn address ID.");
+      return;
+    }
+    const checkmaxsm = await contract.methods.counter().call({ from: accounts[0]});
+    if (parseInt(inputID) >= parseInt(checkmaxsm)) {
+      alert("Present max. number of smart contract ID is "+checkmaxsm+", but you enter "+inputID);
       return;
     }
     if (inputRate === "") {
@@ -277,6 +334,11 @@ function ContractBtns({ setValue, setUseraddress, setMainaddressid, setSpawnaddr
       alert("Please enter a spawn address ID.");
       return;
     }
+    const checkmaxsm = await contract.methods.counter().call({ from: accounts[0]});
+    if (parseInt(inputID) >= parseInt(checkmaxsm)) {
+      alert("Present max. number of smart contract ID is "+checkmaxsm+", but you enter "+inputID);
+      return;
+    }
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const newID = String(inputID);
     const currentspawnaddr = await contract.methods.myaccounts(newID).call({ from: accounts[0]});
@@ -291,6 +353,11 @@ function ContractBtns({ setValue, setUseraddress, setMainaddressid, setSpawnaddr
     e.preventDefault();
     if (inputID === "") {
       alert("Please enter a spawn address ID.");
+      return;
+    }
+    const checkmaxsm = await contract.methods.counter().call({ from: accounts[0]});
+    if (parseInt(inputID) >= parseInt(checkmaxsm)) {
+      alert("Present max. number of smart contract ID is "+checkmaxsm+", but you enter "+inputID);
       return;
     }
     const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -309,6 +376,11 @@ function ContractBtns({ setValue, setUseraddress, setMainaddressid, setSpawnaddr
       alert("Please enter a spawn address ID.");
       return;
     }
+    const checkmaxsm = await contract.methods.counter().call({ from: accounts[0]});
+    if (parseInt(inputID) >= parseInt(checkmaxsm)) {
+      alert("Present max. number of smart contract ID is "+checkmaxsm+", but you enter "+inputID);
+      return;
+    }
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const newID = String(inputID);
     const currentspawnaddr = await contract.methods.myaccounts(newID).call({ from: accounts[0]});
@@ -323,6 +395,11 @@ function ContractBtns({ setValue, setUseraddress, setMainaddressid, setSpawnaddr
     e.preventDefault();
     if (inputID === "") {
       alert("Please enter a spawn address ID.");
+      return;
+    }
+    const checkmaxsm = await contract.methods.counter().call({ from: accounts[0]});
+    if (parseInt(inputID) >= parseInt(checkmaxsm)) {
+      alert("Present max. number of smart contract ID is "+checkmaxsm+", but you enter "+inputID);
       return;
     }
     const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -349,7 +426,11 @@ function ContractBtns({ setValue, setUseraddress, setMainaddressid, setSpawnaddr
       alert("Please enter a spawn address ID.");
       return;
     }
-        
+    const checkmaxsm = await contract.methods.counter().call({ from: accounts[0]});
+    if (parseInt(inputID) >= parseInt(checkmaxsm)) {
+      alert("Present max. number of smart contract ID is "+checkmaxsm+", but you enter "+inputID);
+      return;
+    }    
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
     const newID = String(inputID);
@@ -376,7 +457,11 @@ function ContractBtns({ setValue, setUseraddress, setMainaddressid, setSpawnaddr
       alert("Please enter a spawn address ID.");
       return;
     }
-        
+    const checkmaxsm = await contract.methods.counter().call({ from: accounts[0]});
+    if (parseInt(inputID) >= parseInt(checkmaxsm)) {
+      alert("Present max. number of smart contract ID is "+checkmaxsm+", but you enter "+inputID);
+      return;
+    }    
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const newID = String(inputID);
     const currentspawnaddr = await contract.methods.myaccounts(newID).call({ from: accounts[0]});
@@ -401,16 +486,27 @@ function ContractBtns({ setValue, setUseraddress, setMainaddressid, setSpawnaddr
       alert("Please enter a spawn address ID.");
       return;
     }
+    const checkmaxsm = await contract.methods.counter().call({ from: accounts[0]});
+    if (parseInt(inputID) >= parseInt(checkmaxsm)) {
+      alert("Present max. number of smart contract ID is "+checkmaxsm+", but you enter "+inputID);
+      return;
+    }
     if (inputStakingNumber === "") {
       alert("Please enter a staking number.");
       return;
-    }    
+    } 
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const newID = String(inputID);
     const currentspawnaddr = await contract.methods.myaccounts(newID).call({ from: accounts[0]});
     console.log("currentspawnaddr:", currentspawnaddr);
     const signer = provider.getSigner();
     const account2 = new ethers.Contract(currentspawnaddr, subsmartcontractABI, signer);
+    const userAddr = (await provider.listAccounts())[0];
+    const checkmaxStakingNumber = await account2.balanceOf(userAddr, "0");
+    if (parseInt(checkmaxStakingNumber) < parseInt(inputStakingNumber)) {
+      alert("Your max. number for staking is "+checkmaxStakingNumber+", but you enter "+ inputStakingNumber + " for staking.");
+      return;
+    }
     const approval = await account2.setApprovalForAll(currentspawnaddr, "True");
     console.log("approval before:", approval);
     /* const account2p = new ethers.Contract(currentspawnaddr, subsmartcontractABI, provider);
@@ -437,6 +533,11 @@ function ContractBtns({ setValue, setUseraddress, setMainaddressid, setSpawnaddr
       alert("Please enter a spawn address ID.");
       return;
     }
+    const checkmaxsm = await contract.methods.counter().call({ from: accounts[0]});
+    if (parseInt(inputID) >= parseInt(checkmaxsm)) {
+      alert("Present max. number of smart contract ID is "+checkmaxsm+", but you enter "+inputID);
+      return;
+    }
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
     const newID = String(inputID);
@@ -450,6 +551,11 @@ function ContractBtns({ setValue, setUseraddress, setMainaddressid, setSpawnaddr
     e.preventDefault();
     if (inputID === "") {
       alert("Please enter a spawn address ID.");
+      return;
+    }
+    const checkmaxsm = await contract.methods.counter().call({ from: accounts[0]});
+    if (parseInt(inputID) >= parseInt(checkmaxsm)) {
+      alert("Present max. number of smart contract ID is "+checkmaxsm+", but you enter "+inputID);
       return;
     }
     const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -477,6 +583,65 @@ function ContractBtns({ setValue, setUseraddress, setMainaddressid, setSpawnaddr
       a.click();
     });
   }
+
+  const getDeFiInfo = async e => {
+    if (inputID === "") {
+      alert("Please enter a spawn address ID.");
+      return;
+    }
+    const checkmaxsm = await contract.methods.counter().call({ from: accounts[0]});
+    if (parseInt(inputID) >= parseInt(checkmaxsm)) {
+      alert("Present max. number of smart contract ID is "+checkmaxsm+", but you enter "+inputID);
+      return;
+    }
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const newID = String(inputID);
+    const currentspawnaddr = await contract.methods.myaccounts(newID).call({ from: accounts[0]});
+    console.log("currentspawnaddr:", currentspawnaddr);
+    const account2 = new ethers.Contract(currentspawnaddr, subsmartcontractABI, provider);
+    const allInfo = await account2.getStakingTime_Maxbalances_Incentivebankbalances_Ownerbalances_MintRate_Supplies_URI();
+    const sminfo1 = ethers.utils.formatUnits(allInfo[1], 0); 
+    setReadMaxWithdrawbalances(sminfo1);
+    const sminfo2 = ethers.utils.formatUnits(allInfo[2], 0); 
+    setReadIncentivebankbalances(sminfo2);
+    const sminfo3 = ethers.utils.formatUnits(allInfo[3], 0); 
+    setReadOwnerbalances(sminfo3);
+    const mintednum = await account2.minted();
+    const strmintednum = ethers.utils.formatUnits(mintednum, 0); 
+    if (strmintednum === "0") {
+      alert("Locking function haven't start yet, please mint the first ERC1155 to start the function");
+      return;
+    }
+    try {
+      const lockingcounter = await account2.getTimeLeft_expired4();
+      const strlockingcounter = ethers.utils.formatUnits(lockingcounter, 0);    
+      setReadLockingTime(strlockingcounter);
+    }
+    catch(err) {
+      setReadLockingTime("All time lock is unlocked.");
+    }
+    const userAddr = (await provider.listAccounts())[0];
+    const modelnumber = ethers.utils.formatUnits(await account2.balanceOf(userAddr, 0), 0);
+    console.log("balance of ERC model:", modelnumber);   
+    setBalanceMinted(modelnumber);
+    const stakinginfo = await account2.stakes(userAddr)
+    const stakingmodel = ethers.utils.formatUnits(stakinginfo[1], 0);
+    console.log("staking model:", stakingmodel); 
+    setStaking(stakingmodel);  
+    if (stakingmodel === "0") {
+      setReadStakingTime("Are you staking? Please check balance for staking ().");     
+      return;
+    }
+    const sminfo0 = ethers.utils.formatUnits(allInfo[0], 0);
+    if(parseInt(sminfo0)>60)
+      setReadStakingTime("60");
+    else  
+      setReadStakingTime(sminfo0);
+    //console.log("defi Info:", sminfo0); 
+
+  }
+
+  
   
   /* const write = async e => {
     if (e.target.tagName === "INPUT") {
@@ -513,13 +678,13 @@ function ContractBtns({ setValue, setUseraddress, setMainaddressid, setSpawnaddr
       </button>
 
       <button onClick={getUseraddress}>
-        AIWalletFactory address
+        AIWalletFactory owner address
       </button>
 
       <button onClick={createAccount} className="input-btn">
         build(<input
           type="text"
-          placeholder="addr"
+          placeholder="address"
           value={inputValue}
           onChange={handleInputAddress}
         />)
@@ -530,16 +695,44 @@ function ContractBtns({ setValue, setUseraddress, setMainaddressid, setSpawnaddr
       </button>
 
       <button onClick={getCounter}>
-        getAddressID()
+        get latest AddressID()
       </button>
 
       <button onClick={getSpawnaddress} className="input-btn">
-        SpawnAddr(<input
+        Please enter Spawn Address ID (<input
           type="text"
           placeholder="ID"
           value={inputID}
           onChange={handleInputChange}
         />)
+      </button>
+
+      <button onClick={sendCall} className="input-btn">
+        send via call from AIWalletFactory platform (
+          <input
+            type="text"
+            placeholder="address"
+            value={inputToAddr}
+            onChange={handleInputToAddr}
+          />
+          <input
+            type="text"
+            placeholder="ether"
+            value={inputToAmount}
+            onChange={handleInputToAmount}
+          />
+        )
+      </button>
+
+      <button onClick={ownerwithdraw} className="input-btn">
+        withdraw by owner from subsmartcontract (
+          <input
+            type="text"
+            placeholder="ether"
+            value={inputToAmount}
+            onChange={handleInputToAmount}
+          />
+        )
       </button>
 
       <button onClick={getContractInfo}>
@@ -550,13 +743,13 @@ function ContractBtns({ setValue, setUseraddress, setMainaddressid, setSpawnaddr
         setup(      
         <input
           type="text"
-          placeholder="mint"
+          placeholder="mint ether"
           value={inputRate}
           onChange={handleInputRate}
         />
         <input
           type="text"
-          placeholder="supply"
+          placeholder="max. supply"
           value={inputSupplyMax}
           onChange={handleInputSupplyMax}
         />
@@ -607,6 +800,10 @@ function ContractBtns({ setValue, setUseraddress, setMainaddressid, setSpawnaddr
       
       <button onClick={downloadJSONFile}>
         download 2 files from uri()
+      </button>
+
+      <button onClick={getDeFiInfo}>
+        defi info()
       </button>
 
       {/* <div onClick={write} className="input-btn">

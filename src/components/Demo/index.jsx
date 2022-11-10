@@ -22,22 +22,33 @@ function Demo() {
   const [minted, setMinted] = useState("?(Minted number)");
   const [mint, setMint] = useState("?(Mint)");
   const [readLockingTime, setReadLockingTime] = useState("?(Locking second)");
+  const [readStakingTime, setReadStakingTime] = useState("?(Staking starting timestamp)");
+  const [readMaxWithdrawbalances, setReadMaxWithdrawbalances] = useState("?(Max withdraw balances at each stage 40 secounds (total four stages in demo)");
+  const [readIncentivebankbalances, setReadIncentivebankbalances] = useState("?(Sub smart contract incentive bank balances)");
+  const [readOwnerbalances, setReadOwnerbalances] = useState("?(Sub smart contract owner balances)");
   const [balanceMinted, setBalanceMinted] = useState("?(Own Balance Minted)");
   const [staking, setStaking] = useState("?(staking number)");
   const demo =
     <>
       <Cta />
       <div className="contract-container"> 
-        <Contract value={value} useraddress={useraddress} mainaddressid={mainaddressid} 
-        spawnaddress={spawnaddress} spawnowneraddress={spawnowneraddress} 
-        contractInfo={contractInfo} rate={rate} supplymax={supplymax} supplyuri={supplyuri}
-        minted={minted} mint={mint} readLockingTime={readLockingTime} 
-        balanceMinted={balanceMinted} staking={staking}/>
+        
         <ContractBtns setValue={setValue} setUseraddress={setUseraddress} setMainaddressid={setMainaddressid} 
         setSpawnaddress={setSpawnaddress} setSpawnowneraddress={setSpawnowneraddress} 
         setContractInfo={setContractInfo} setRate={setRate} setSupplymax={setSupplymax} setSupplyuri={setSupplyuri}
-        setMinted={setMinted} setMint={setMint} setReadLockingTime={setReadLockingTime} 
+        setMinted={setMinted} setMint={setMint} setReadLockingTime={setReadLockingTime}  setReadStakingTime={setReadStakingTime}
+        setReadMaxWithdrawbalances={setReadMaxWithdrawbalances} setReadIncentivebankbalances={setReadIncentivebankbalances} 
+        setReadOwnerbalances={setReadOwnerbalances}
         setBalanceMinted={setBalanceMinted} setStaking={setStaking}/>
+      </div>
+      <div className="contract-container">
+        <Contract value={value} useraddress={useraddress} mainaddressid={mainaddressid} 
+        spawnaddress={spawnaddress} spawnowneraddress={spawnowneraddress} 
+        contractInfo={contractInfo} rate={rate} supplymax={supplymax} supplyuri={supplyuri}
+        minted={minted} mint={mint} readLockingTime={readLockingTime} readStakingTime={readStakingTime}
+        readMaxWithdrawbalances={readMaxWithdrawbalances} readIncentivebankbalances={readIncentivebankbalances} 
+        readOwnerbalances={readOwnerbalances}
+        balanceMinted={balanceMinted} staking={staking}/>
       </div>
     </>;
 
