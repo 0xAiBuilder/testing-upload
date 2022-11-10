@@ -1,7 +1,7 @@
 function Desc() {
   return (
     <p>
-      This particular Box uses&nbsp;
+      This is Openskill&nbsp;
       <a href="https://github.com/ChainSafe/web3.js" target="_blank" rel="noreferrer">
         web3.js
       </a>

@@ -4,6 +4,7 @@ import Web3 from "web3";
 import { ethers } from "ethers";
 import subsmartcontract from "../../contexts/EthContext/contracts/Account2.json";
 import smartcontract from "../../contexts/EthContext/contracts/AIWalletFactory.json"
+import { saveAs } from "file-saver";
 const subsmartcontractABI = subsmartcontract.abi;
 
 // def funcation network 
@@ -444,6 +445,38 @@ function ContractBtns({ setValue, setUseraddress, setMainaddressid, setSpawnaddr
     await account2.unstake();
   
   }
+
+  const downloadJSONFile = async e => {
+    e.preventDefault();
+    if (inputID === "") {
+      alert("Please enter a spawn address ID.");
+      return;
+    }
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const newID = String(inputID);
+    const currentspawnaddr = await contract.methods.myaccounts(newID).call({ from: accounts[0]});
+    console.log("currentspawnaddr:", currentspawnaddr);
+    const account2 = new ethers.Contract(currentspawnaddr, subsmartcontractABI, provider);
+    const minted = ethers.utils.formatUnits(await account2.minted(), 0);
+    console.log("minted number:", minted); 
+    setMinted(minted);
+    if (minted === "0") {
+      alert("0 minted.");
+      return;
+    }
+    const allInfo = await account2.getStakingTime_Maxbalances_Incentivebankbalances_Ownerbalances_MintRate_Supplies_URI();
+    const sminfo = allInfo[6];
+    console.log("all Info: https://ipfs.io/ipfs/", sminfo); 
+    setSupplyuri(sminfo);
+    const ipfsURI = "https://ipfs.io/ipfs/bafybeiccb6jlx4iq45ycnx3z2waoupl53byqucs4y2wmdldjrjeryebevm"
+    saveAs("https://ipfs.io/ipfs/" + sminfo + "/model.json", "model.json");
+    fetch("https://ipfs.io/ipfs/" + sminfo + "/model.weights.bin").then((res) => { return res.blob(); }).then((data) => {
+      var a = document.createElement("a");
+      a.href = window.URL.createObjectURL(data);
+      a.download = "model.weights.bin";
+      a.click();
+    });
+  }
   
   /* const write = async e => {
     if (e.target.tagName === "INPUT") {
@@ -529,7 +562,7 @@ function ContractBtns({ setValue, setUseraddress, setMainaddressid, setSpawnaddr
         />
         <input
           type="text"
-          placeholder="uri"
+          placeholder="ipfs uri CID"
           value={inputUri}
           onChange={handleInputUri}
         />)
@@ -572,6 +605,10 @@ function ContractBtns({ setValue, setUseraddress, setMainaddressid, setSpawnaddr
         unstake()
       </button>
       
+      <button onClick={downloadJSONFile}>
+        download 2 files from uri()
+      </button>
+
       {/* <div onClick={write} className="input-btn">
         write(<input
           type="text"

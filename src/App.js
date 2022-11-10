@@ -12,7 +12,9 @@ function App() {
     <EthProvider>
       <div id="App" >
       <div className="container">
-          <h1>Image Classification using Feature Extractor with MobileNet</h1>
+          <h1>Openskill</h1>
+          <hr />
+          <h2>Image Classification using Feature Extractor with MobileNet</h2>
           <div id="videoContainer"></div>
           <p><span id="modelStatus">Loading MobileNet</span></p>
           <p>
@@ -38,7 +40,13 @@ function App() {
             </Helmet>           
           </p>
           <hr />
+          <Setup />
+          <hr />
           <Demo />
+          
+          
+  
+          
         </div>
       </div>
     </EthProvider>

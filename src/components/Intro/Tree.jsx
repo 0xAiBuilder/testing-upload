@@ -2,11 +2,11 @@ function Tree() {
   return (
     <code>
       {`.\n`}
-      {`├── client`}
+      {`├── Step 1`}
       <span className="primary-color">
         {`   # React project (create-react-app)\n`}
       </span>
-      {`└── truffle`}
+      {`└── Step 2`}
       <span className="primary-color">
         {`  # Truffle project`}
       </span>

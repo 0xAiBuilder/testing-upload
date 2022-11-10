@@ -168,7 +168,7 @@ contract Account2 is ERC1155 {
       </span>
 
       {`,
-   string memory newuri 
+   string memory newuri (CID)
    = `} 
 
       <span className="secondary-color" ref={spanEle}>
