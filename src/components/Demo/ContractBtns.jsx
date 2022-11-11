@@ -574,7 +574,7 @@ function ContractBtns({ setValue, setUseraddress, setMainaddressid, setSpawnaddr
     const sminfo = allInfo[6];
     console.log("all Info: https://ipfs.io/ipfs/", sminfo); 
     setSupplyuri(sminfo);
-    const ipfsURI = "https://ipfs.io/ipfs/bafybeiccb6jlx4iq45ycnx3z2waoupl53byqucs4y2wmdldjrjeryebevm"
+    //const ipfsURI = "https://ipfs.io/ipfs/bafybeiccb6jlx4iq45ycnx3z2waoupl53byqucs4y2wmdldjrjeryebevm"
     saveAs("https://ipfs.io/ipfs/" + sminfo + "/model.json", "model.json");
     fetch("https://ipfs.io/ipfs/" + sminfo + "/model.weights.bin").then((res) => { return res.blob(); }).then((data) => {
       var a = document.createElement("a");
@@ -601,11 +601,11 @@ function ContractBtns({ setValue, setUseraddress, setMainaddressid, setSpawnaddr
     const account2 = new ethers.Contract(currentspawnaddr, subsmartcontractABI, provider);
     const allInfo = await account2.getStakingTime_Maxbalances_Incentivebankbalances_Ownerbalances_MintRate_Supplies_URI();
     const sminfo1 = ethers.utils.formatUnits(allInfo[1], 0); 
-    setReadMaxWithdrawbalances(sminfo1);
+    setReadMaxWithdrawbalances((parseFloat(sminfo1)/1000000000000000000).toString());
     const sminfo2 = ethers.utils.formatUnits(allInfo[2], 0); 
-    setReadIncentivebankbalances(sminfo2);
+    setReadIncentivebankbalances((parseFloat(sminfo2)/1000000000000000000).toString());
     const sminfo3 = ethers.utils.formatUnits(allInfo[3], 0); 
-    setReadOwnerbalances(sminfo3);
+    setReadOwnerbalances((parseFloat(sminfo3)/1000000000000000000).toString());
     const mintednum = await account2.minted();
     const strmintednum = ethers.utils.formatUnits(mintednum, 0); 
     if (strmintednum === "0") {

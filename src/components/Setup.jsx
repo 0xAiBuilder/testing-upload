@@ -7,10 +7,16 @@ function Setup() {
       <details>
         <summary>What is Openskill</summary>
         <p>
-          This is the first skill finance protocol (SkillFi)
+          Openskill is the first Skill-Fi platform, which available users to stake their skills and built models by thenselves to serve Web3.0 metaverse powered by Mechine Learning.
         </p>
-        <p>Utility.</p>
-        <code>$ npm install -g truffle ganache</code>
+        <p>Utility</p>
+        <code>
+          {`+ Classification-based insurance\n`}
+          {`+ 3-stages forecasting\n`}
+          {`+ Webcam-based control\n`}
+          {`+ Photo-based medical diagnosis\n`}
+          {`+ Cyber-ware implant library for disability\n`}
+        </code>
       </details>
 
       <details>
@@ -19,61 +25,50 @@ function Setup() {
           Open your webcam without concurrently using!!!
         </p>
         <code>
-          {`Step 1\n`}
-          {`$ truffle migrate --network development\n`}
-          <span className="dim-color">
-            # The `development` network points to Ganache, it's configured in
-            truffle/truffle-config.js on line 45.
-          </span>
+          {`\nStep 1.\ncreators train a model and download two files model.json & model.weight.bin\n`}
+          {`\nStep 2.\ncreators zip two files at https://car.ipfs.io/\n`}
+          {`\nStep 3.\ncreators copy the ipfs uri .car file\n`}
+          {`\nStep 4.\ncreators set up 3 things: mint fee, supply, and uri, and create minting smart contract on Openskill platform\n`}
+          {`\nStep 5.\nusers mint this ERC1155 token and enable to stake it on that minting smart contract address to earn back a part of the minting fee\n`}
+          {`\nStep 6.\nusers enable to download the uri contents to receive two files\n`}
+          {`\nStep 7.\nusers connects two files to the website and press Start guessing\n`}
+          {`\nStep 8.\nusers own a new skill`}          
         </code>
-        <p>From the list of generated private keys, import the first one to MetaMask.</p>
+        <p>Go to .pdf for more detail.</p>
       </details>
       
       <details>
         <summary>Tokenomic</summary>
         <p>
-          Keep Ganache running and open another terminal. Let's compile and deploy our
-          contracts to Ganache.
+          The following is fee usage distribution:
         </p>
         <code>
-          {`$ cd truffle\n`}
-          {`$ truffle migrate --network development\n`}
-          <span className="dim-color">
-            # The `development` network points to Ganache, it's configured in
-            truffle/truffle-config.js on line 45.
-          </span>
+          {`50% Operation of AI laboratory for Decentralized Science Finance\n`}
+          {`17% AI model trainee insurance\n`}
+          {`16% DAO-based federated learning\n`}
+          {`16% Trainee referral bonus\n`}
+          {`1% AI model staking\n`}
         </code>
       </details>
 
       <details>
         <summary>Roadmap</summary>
-        <p>
-          Keep Ganache running and open another terminal. Let's compile and deploy our
-          contracts to Ganache.
-        </p>
+        
         <code>
-          {`$ cd truffle\n`}
-          {`$ truffle migrate --network development\n`}
-          <span className="dim-color">
-            # The `development` network points to Ganache, it's configured in
-            truffle/truffle-config.js on line 45.
-          </span>
+          {`Q4 2022 UI\n`}
+          {`Q1 2023 Trainee refferl bonus\n`}
+          {`Q1 2023 DAO-based federated learning\n`}
+          {`Q2 2023 AI model trainee insurance\n`}
+          {`Q3 2023 deploy marketplace\n`}
+          {`Q4 2023 Templete\n`}
         </code>
       </details>
 
       <details>
         <summary>Team</summary>
-        <p>
-          Keep Ganache running and open another terminal. Let's compile and deploy our
-          contracts to Ganache.
-        </p>
         <code>
-          {`$ cd truffle\n`}
-          {`$ truffle migrate --network development\n`}
-          <span className="dim-color">
-            # The `development` network points to Ganache, it's configured in
-            truffle/truffle-config.js on line 45.
-          </span>
+          {`0xAL\n`}
+          {`0xTC\n`}
         </code>
       </details>
     </>
