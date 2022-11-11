@@ -6,6 +6,8 @@ import subsmartcontract from "../../contexts/EthContext/contracts/Account2.json"
 import smartcontract from "../../contexts/EthContext/contracts/AIWalletFactory.json"
 import { saveAs } from "file-saver";
 const subsmartcontractABI = subsmartcontract.abi;
+const Moralis = require('moralis').default;
+const { EvmChain } = require('@moralisweb3/evm-utils');
 
 // def funcation network 
 const networks = {
@@ -448,6 +450,22 @@ function ContractBtns({ setValue, setUseraddress, setMainaddressid, setSpawnaddr
     console.log("minted number:", minted); 
     setMinted(minted);
 
+    await Moralis.start({
+      apiKey: "5CFEScR8LoeA8acNldIK1NApktut5NgiDJJXUbrghxqDQ26b0bP7A6HMDufyUyi0",
+    });
+    const mycontent = '{"Receipt":{"From ID":' + inputID + ',"FromAddress":' + currentspawnaddr + ',"Price:":' + rate + ', Amount: 1}}';
+
+    const abi = [
+    {
+        path: "D:/xampp/htdocs/testnet/skill_language/v2/testing-upload-3/public/logo512.jpg",
+        Content: mycontent
+    },
+    ];
+
+    const response = await Moralis.EvmApi.ipfs.uploadFolder({ abi });
+
+    console.log(response);
+    alert(response.data[0].path);
     
   };
 
@@ -545,7 +563,7 @@ function ContractBtns({ setValue, setUseraddress, setMainaddressid, setSpawnaddr
     const account2 = new ethers.Contract(currentspawnaddr, subsmartcontractABI, signer);
     await account2.unstake();
   
-  }
+  } 
 
   const downloadJSONFile = async e => {
     e.preventDefault();

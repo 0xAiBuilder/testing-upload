@@ -67,8 +67,8 @@ function Setup() {
       <details>
         <summary>Team</summary>
         <code>
-          {`0xAL\n`}
-          {`0xTC\n`}
+          {`0xAlisdair LEE\n`}
+          {`0xTammy CHEUNG\n`}
         </code>
       </details>
     </>
