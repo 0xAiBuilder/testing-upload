@@ -63,7 +63,7 @@ function setupButtons() {
   // from the video with a label of "dog" to the classifier
   buttonC = select("#sample3Button");
   buttonC.mousePressed(function() {
-    classifier.addImage("sample1");
+    classifier.addImage("sample3");
     select("#amountOfsample3Images").html((sample3Images += 1));
   });
 
